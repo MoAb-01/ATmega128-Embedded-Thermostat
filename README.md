@@ -4,8 +4,6 @@ A register-level, bare-metal embedded thermostat controller built on the ATmega1
 
 ## Hardware Architecture & Simulation
 
-*(Note: Insert your Proteus schematic screenshot below)*
-<!-- Add your image file to the repo and update the path below, e.g., ![Proteus Simulation](images/simulation_schematic.png) -->
 ![Proteus Simulation Placeholder](./schematic.png)
 
 ### Component Overview

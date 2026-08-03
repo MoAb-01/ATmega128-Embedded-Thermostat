@@ -1,4 +1,4 @@
-## ATmega128 Embedded Thermostat
+# ATmega128 Embedded Thermostat
 
 A register-level, bare-metal embedded thermostat controller built on the ATmega128 AVR microcontroller. This project demonstrates direct hardware manipulation, custom bit-banged communication protocols, signal processing for sensor data, and non-blocking state machine design. The system is validated using a Proteus simulation environment.
 

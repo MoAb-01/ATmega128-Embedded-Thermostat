@@ -6,7 +6,7 @@ A register-level, bare-metal embedded thermostat controller built on the ATmega1
 
 *(Note: Insert your Proteus schematic screenshot below)*
 <!-- Add your image file to the repo and update the path below, e.g., ![Proteus Simulation](images/simulation_schematic.png) -->
-![Proteus Simulation Placeholder](path/to/your/image.png)
+![Proteus Simulation Placeholder](./schematic.png)
 
 ### Component Overview
 *   **Microcontroller:** Microchip ATmega128 running at 8 MHz.

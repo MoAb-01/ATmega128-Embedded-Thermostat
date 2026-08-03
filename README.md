@@ -11,7 +11,7 @@ A register-level, bare-metal embedded thermostat controller built on the ATmega1
 *   **Temperature Sensor:** NTC3950 Thermistor configured in a voltage divider circuit.
 *   **Display:** TM1637 4-Digit 7-Segment LED Display.
 *   **User Input:** 3x Hardware-debounced push buttons (Up, Down, Confirm).
-*   **Actuator/Load Control:** Logic-level N-Channel MOSFET (e.g., 2N7000/IRLZ44N) driven by hardware PWM for heating element control.
+*   **Actuator/Load Control:** Logic-level N-Channel MOSFET driven by hardware PWM for heating element control.
 
 ---
 

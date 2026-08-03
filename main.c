@@ -12,7 +12,7 @@
 #include <stdbool.h>
 
 // =================================================
-//     ATmega128 Pin Definitions (PROTEUS MAPPED)
+//     ATmega128 Pin Definitions //
 // =================================================
 
 // TM1637 Display on PORTD
@@ -48,8 +48,14 @@ const float B_COEFFICIENT       = 3950.0f;
 
 float targetTemp = 22.0f;
 float currentTemp = 0.0f;
-float hysteresis = 1.0f;
 int timeDuration = 10; // Default 10 seconds
+
+// --- PID Controller Variables ---
+float Kp = 25.0f; // Proportional Gain
+float Ki = 1.0f;  // Integral Gain
+float Kd = 5.0f;  // Derivative Gain
+float integral = 0.0f;
+float previousError = 0.0f;
 
 // --- Timers & Inputs ---
 unsigned long previousMillis = 0;
@@ -330,6 +336,11 @@ int main(void) {
 			
 			// Calculate when the timer should end
 			endTime = millis() + ((unsigned long)timeDuration * 1000UL);
+			
+			// Reset PID variables on start
+			integral = 0.0f;
+			previousError = 0.0f;
+			
 			step = 3;
 		}
 		else if (step == 3) {
@@ -348,13 +359,27 @@ int main(void) {
 						continue;
 					}
 
-					// --- Simple Hysteresis Control (Replaces PID) ---
-					if (currentTemp <= (targetTemp - hysteresis)) {
-						OCR0 = 255; // MOSFET 100% ON
+					// --- PID Closed-Loop Control Calculation ---
+					float error = targetTemp - currentTemp;
+					
+					// Accumulate integral (with anti-windup clamping)
+					integral += error;
+					if (integral > 100.0f) integral = 100.0f;
+					if (integral < -100.0f) integral = -100.0f;
+					
+					float derivative = error - previousError;
+					previousError = error;
+					
+					float pidOutput = (Kp * error) + (Ki * integral) + (Kd * derivative);
+					
+					// Constrain PID output to valid PWM range (0 - 255)
+					if (pidOutput > 255.0f) {
+						pidOutput = 255.0f;
+						} else if (pidOutput < 0.0f) {
+						pidOutput = 0.0f;
 					}
-					else if (currentTemp >= targetTemp) {
-						OCR0 = 0;   // MOSFET OFF
-					}
+					
+					OCR0 = (uint8_t)pidOutput; // Apply smooth PWM duty cycle
 
 					// --- Display Formatting (Temp : TimeLeft) ---
 					int timeLeft = (endTime - currentMillis) / 1000;
